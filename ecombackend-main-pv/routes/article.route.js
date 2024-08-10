@@ -138,12 +138,21 @@ router.get('/art/paginationUSP', async (req, res) => {
     res.json({results,tot});
   });  
   
-  router.get('/art/points/:id', async (req, res) => {
+  router.get('/art/points/:id', async (req, res) => {  
     try {
-      const art=await Article.findById(req.params.id).populate("depotID")
-      res.status(200).json(art)
-  } catch (error) {
-      res.status(404).json({message:error.message})
-  }
-  })
+      const articleId = req.params.id;
+      const article = await Article.findById(articleId)
+        .populate('depotID.pointsvente');  // Assurez-vous que ce champ correspond au modèle `Pointsvente`
+  
+      if (!article) {
+        return res.status(404).json({ success: false, message: 'Article not found' });
+      }
+    
+      res.json(article);
+    } catch (error) {
+      console.error("Error fetching article points de vente:", error);
+      res.status(500).json({ success: false, message: 'Server error' });
+    }
+  });
+
 module.exports=router

@@ -10,14 +10,20 @@ function Location() {
   const [locations, setLocations] = useState([]);
 
   useEffect(() => {
-
+const tab=[]
     axios.get('http://localhost:3002/api/articles/art/points/'+ id)
-       .then((res) => {
-              setLocations(res.data.depotID);
-      })
-      .catch((error) => {
-        console.error("Error fetching locations:", error);
-      });
+    .then((res) => {
+     
+        res.data.depotID.map((item) => {
+          tab.push(item.pointsvente)
+        })
+      
+        setLocations(tab || []);
+     
+  })
+  .catch((error) => {
+      console.error("Error fetching locations:", error);
+  });
   }, []);
 
 

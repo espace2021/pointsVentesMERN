@@ -8,7 +8,9 @@ qtestock:{ type: Number, required: false },
 imageart:{ type: String, required: false },
 scategorieID: {type:mongoose.Schema.Types.ObjectId,
 ref:'Scategorie'},
-depotID :  [{type:mongoose.Schema.Types.ObjectId,
-    ref:'Pointsvente'}],
+depotID: [{
+    pointsvente: { type: mongoose.Schema.Types.ObjectId, ref: 'Pointsvente' },
+    qtes: { type: Number, required: false }
+}]
 })
 module.exports=mongoose.model('Article',articleSchema)
